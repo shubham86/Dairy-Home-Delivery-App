@@ -1,0 +1,1980 @@
+*************TABLE*****************
+
+USE [AnushreeDairy]
+GO
+
+/****** Object:  Table [dbo].[TB_Admin]    Script Date: 10/19/2018 10:07:14 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TB_Admin](
+	[adminID] [int] IDENTITY(1,1) NOT NULL,
+	[adminName] [varchar](100) NOT NULL,
+	[adminUserName] [varchar](100) NOT NULL,
+	[password] [varchar](20) NOT NULL,
+	[role] [varchar](10) NOT NULL,
+	[mobile] [varchar](10) NOT NULL,
+	[email] [varchar](150) NULL,
+	[isActive] [bit] NOT NULL,
+ CONSTRAINT [PK_TB_Admin] PRIMARY KEY CLUSTERED 
+(
+	[adminID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TB_Area]    Script Date: 10/19/2018 10:07:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TB_Area](
+	[areaID] [int] IDENTITY(1,1) NOT NULL,
+	[area] [varchar](100) NOT NULL,
+	[city] [varchar](50) NOT NULL,
+	[pincode] [varchar](6) NULL,
+	[isActive] [bit] NULL,
+ CONSTRAINT [PK_TB_Area] PRIMARY KEY CLUSTERED 
+(
+	[areaID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TB_Customer]    Script Date: 10/19/2018 10:07:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TB_Customer](
+	[customerID] [int] IDENTITY(1,1) NOT NULL,
+	[customerName] [varchar](120) NOT NULL,
+	[customerUserName] [varchar](120) NOT NULL,
+	[customerPassword] [varchar](50) NOT NULL,
+	[customerMobile] [varchar](10) NOT NULL,
+	[customerEmail] [varchar](150) NULL,
+	[dateOfRegister] [date] NOT NULL,
+	[flatNo] [varchar](10) NOT NULL,
+	[buildingName] [varchar](50) NOT NULL,
+	[street] [varchar](150) NOT NULL,
+	[areaID] [int] NOT NULL,
+	[deliveryBoyID] [int] NULL,
+	[isActive] [bit] NULL,
+ CONSTRAINT [PK_TB_Customer] PRIMARY KEY CLUSTERED 
+(
+	[customerID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TB_MilkDelivery]    Script Date: 10/19/2018 10:07:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TB_MilkDelivery](
+	[deliveryID] [int] IDENTITY(1,1) NOT NULL,
+	[customerID] [int] NOT NULL,
+	[deliveryDate] [date] NOT NULL,
+	[batch] [varchar](5) NOT NULL,
+	[milkQuatity] [decimal](5, 2) NOT NULL,
+	[productID] [int] NOT NULL,
+	[salerID] [int] NOT NULL,
+ CONSTRAINT [PK_TB_MilkDelivery] PRIMARY KEY CLUSTERED 
+(
+	[deliveryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TB_PaymentDetails]    Script Date: 10/19/2018 10:07:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TB_PaymentDetails](
+	[paymentID] [int] IDENTITY(1,1) NOT NULL,
+	[customerID] [int] NOT NULL,
+	[paymentDate] [date] NOT NULL,
+	[paymentMonth] [varchar](10) NOT NULL,
+	[paymentYear] [varchar](4) NOT NULL,
+	[paymentAmount] [decimal](10, 2) NOT NULL,
+	[paidAmount] [decimal](10, 2) NOT NULL,
+	[balanceAmount] [decimal](10, 2) NOT NULL,
+	[paymentMode] [varchar](10) NULL,
+	[adminID] [int] NOT NULL,
+ CONSTRAINT [PK_TB_PaymentDetails] PRIMARY KEY CLUSTERED 
+(
+	[paymentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TB_Product]    Script Date: 10/19/2018 10:07:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TB_Product](
+	[productID] [int] IDENTITY(1,1) NOT NULL,
+	[productName] [varchar](50) NOT NULL,
+	[productDesc] [varchar](500) NULL,
+	[isActive] [bit] NULL,
+ CONSTRAINT [PK_TB_Product] PRIMARY KEY CLUSTERED 
+(
+	[productID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TB_ProductRate]    Script Date: 10/19/2018 10:07:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TB_ProductRate](
+	[productRateID] [int] IDENTITY(1,1) NOT NULL,
+	[productID] [int] NOT NULL,
+	[rate] [decimal](5, 2) NOT NULL,
+	[dateOfDeclare] [date] NOT NULL,
+	[isActive] [bit] NOT NULL,
+ CONSTRAINT [PK_TB_ProductRate] PRIMARY KEY CLUSTERED 
+(
+	[productRateID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[TB_Admin] ADD  CONSTRAINT [DF_TB_Admin_role]  DEFAULT ('saler') FOR [role]
+GO
+
+ALTER TABLE [dbo].[TB_Admin] ADD  CONSTRAINT [DF_TB_Admin_email]  DEFAULT (NULL) FOR [email]
+GO
+
+ALTER TABLE [dbo].[TB_Area] ADD  CONSTRAINT [DF_TB_Area_pincode]  DEFAULT (NULL) FOR [pincode]
+GO
+
+ALTER TABLE [dbo].[TB_Area] ADD  CONSTRAINT [DF_TB_Area_isActive]  DEFAULT ((1)) FOR [isActive]
+GO
+
+ALTER TABLE [dbo].[TB_Customer] ADD  CONSTRAINT [DF_TB_Customer_customerEmail]  DEFAULT (NULL) FOR [customerEmail]
+GO
+
+ALTER TABLE [dbo].[TB_Customer] ADD  CONSTRAINT [DF_TB_Customer_flatNo]  DEFAULT ((0)) FOR [flatNo]
+GO
+
+ALTER TABLE [dbo].[TB_Customer] ADD  CONSTRAINT [DF_TB_Customer_deliveryBoyID]  DEFAULT ((0)) FOR [deliveryBoyID]
+GO
+
+ALTER TABLE [dbo].[TB_Customer] ADD  CONSTRAINT [DF_TB_Customer_isActive]  DEFAULT ((1)) FOR [isActive]
+GO
+
+ALTER TABLE [dbo].[TB_PaymentDetails] ADD  CONSTRAINT [DF_TB_PaymentDetails_balanceAmount]  DEFAULT ((0)) FOR [balanceAmount]
+GO
+
+ALTER TABLE [dbo].[TB_PaymentDetails] ADD  CONSTRAINT [DF_TB_PaymentDetails_paymentMode]  DEFAULT ('cash') FOR [paymentMode]
+GO
+
+ALTER TABLE [dbo].[TB_Product] ADD  CONSTRAINT [DF_TB_Product_productDesc]  DEFAULT (NULL) FOR [productDesc]
+GO
+
+ALTER TABLE [dbo].[TB_Product] ADD  CONSTRAINT [DF_TB_Product_isActive]  DEFAULT ((1)) FOR [isActive]
+GO
+
+
+
+*************STORE PROCEDURE*****************
+
+
+USE [AnushreeDairy]
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_AddAdmin]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_AddAdmin]
+	-- Add the parameters for the stored procedure here
+	@adminName		varchar(100),
+	@adminUserName	varchar(100),
+	@password		varchar(20),
+	@role			varchar(10),
+	@email			varchar(150),
+	@mobile			varchar(10)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	INSERT INTO TB_Admin
+	(
+		adminName,
+		adminUserName,
+		password,
+		role,
+		email,
+		mobile,
+		isActive
+	)
+	VALUES
+	(
+		@adminName,
+		@adminUserName,
+		@password,
+		@role,
+		@email,
+		@mobile,
+		1
+	)
+
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_AddValidation]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_AddValidation]
+	-- Add the parameters for the stored procedure here
+	@userName		varchar(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT adminID 
+	FROM TB_Admin
+	WHERE adminUserName=@userName
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_delete]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_delete]
+	-- Add the parameters for the stored procedure here
+	@adminID		INT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	--UPDATE TB_Admin
+	--SET
+	--	isActive=0
+	--WHERE 
+	--	adminID=@adminID
+	
+	UPDATE TB_Admin
+	SET isActive=0
+	WHERE adminID=@adminID
+
+	UPDATE TB_Customer
+	SET	deliveryBoyID = 0
+	WHERE deliveryBoyID=@adminID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_FetchCountOfMasterAdmin]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_FetchCountOfMasterAdmin]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		adminID	
+	FROM TB_Admin
+	where role='admin'
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_FetchInForm]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_FetchInForm]
+	-- Add the parameters for the stored procedure here
+	@adminID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM TB_Admin
+	WHERE adminID=@adminID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_FetchInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_FetchInRepeater]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM TB_Admin
+	where isActive=1
+	ORDER BY role asc
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_Update]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_Update]
+	-- Add the parameters for the stored procedure here
+	@adminID		int,
+	@adminName		varchar(100),
+	@adminUserName	varchar(100),
+	@password		varchar(20),
+	@role			varchar(10),
+	@email			varchar(150),
+	@mobile			varchar(10)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE TB_Admin
+	SET
+		adminName=@adminName,
+		adminUserName=@adminUserName,
+		password=@password,
+		role=@role,
+		email=@email,
+		mobile=@mobile
+	WHERE
+		adminID=@adminID
+	
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_UpdateValidation]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_UpdateValidation]
+	-- Add the parameters for the stored procedure here
+	@adminID		int,
+	@adminUserName	varchar(100)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		adminID
+	FROM 
+		TB_Admin
+	WHERE
+		adminUserName=@adminUserName AND adminID!=@adminID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Admin_Verify]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Admin_Verify]
+	-- Add the parameters for the stored procedure here
+	@userName		varchar(50),
+	@password		varchar(20)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM	
+		TB_Admin
+	WHERE
+		adminUserName=@userName AND password=@password and isActive=1
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_Add]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_Add]
+	-- Add the parameters for the stored procedure here
+	@area		varchar(100),
+	@city		varchar(50)	,
+	@pincode	varchar(6),
+	@isActive	bit
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	INSERT INTO TB_Area
+	(
+		area,
+		city,
+		pincode,
+		isActive
+	)
+	VALUES
+	(
+		@area,
+		@city,
+		@pincode,
+		@isActive
+	)
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_AddValidation]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_AddValidation]
+	-- Add the parameters for the stored procedure here
+	@area		varchar(100)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		areaID
+	FROM
+		TB_Area
+	WHERE
+		area=@area
+		
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_ChangeStatus]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_ChangeStatus]
+	-- Add the parameters for the stored procedure here
+	@areaID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DECLARE @ExistingStatus VARCHAR(1)
+	
+	SELECT
+		@ExistingStatus=isActive
+	FROM 
+		TB_Area
+	WHERE
+		areaID=@areaID
+		
+	IF @ExistingStatus='1'
+		UPDATE TB_Area
+		SET 
+			isActive='0'
+		WHERE
+			areaID=@areaID
+	ELSE
+		UPDATE TB_Area
+		SET 
+			isActive='1'
+		WHERE
+			areaID=@areaID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_delete]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_delete]
+	-- Add the parameters for the stored procedure here
+	@areaID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DELETE FROM TB_Area
+	WHERE areaID=@areaID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_FetchAreaInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_FetchAreaInRepeater]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM TB_Area
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_FetchInForm]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_FetchInForm]
+	-- Add the parameters for the stored procedure here
+	@areaID		INT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM TB_Area
+	WHERE areaID=@areaID
+
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_Update]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_Update]
+	-- Add the parameters for the stored procedure here
+	@areaID		int,
+	@area		varchar(100),
+	@city		varchar(50)	,
+	@pincode	varchar(6),
+	@isActive	bit
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE	TB_Area
+	SET
+	area=@area,
+	city=@city,
+	pincode=@pincode,
+	isActive=@isActive
+	WHERE 
+		areaID=@areaID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Area_UpdateValidation]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Area_UpdateValidation]
+	-- Add the parameters for the stored procedure here
+	@area		varchar(100),
+	@areaID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		areaID
+	FROM
+		TB_Area
+	WHERE
+		area=@area	AND	 areaID!= @areaID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Customer_FetchActiveCustomerInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Customer_FetchActiveCustomerInRepeater]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		customerID,
+		customerName,
+		customerMobile,
+		area,
+		TB_Customer.isActive
+	FROM
+		 TB_Customer,
+		 TB_Area
+	WHERE
+		 TB_Customer.areaID = TB_Area.areaID and
+		 TB_Customer.isActive=1
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Customer_FetchAllCustomerInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Customer_FetchAllCustomerInRepeater]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		customerID,
+		customerName,
+		customerMobile,
+		area,
+		TB_Customer.isActive
+	FROM
+		 TB_Customer,
+		 TB_Area
+	WHERE
+		 TB_Customer.areaID = TB_Area.areaID 
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Delivery_AssignCustomer]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Delivery_AssignCustomer]
+	-- Add the parameters for the stored procedure here
+	@customerID		int,
+	@deliveryBoyID	int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE TB_Customer
+	SET
+		deliveryBoyID=@deliveryBoyID
+	WHERE
+		customerID=@customerID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Delivery_FetchAreasOfDeliveryBoy]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Delivery_FetchAreasOfDeliveryBoy]
+	-- Add the parameters for the stored procedure here
+	@adminID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		DISTINCT area
+	FROM
+		TB_Customer,
+		TB_Area
+	WHERE
+		TB_Customer.areaID=TB_Area.areaID AND
+		deliveryBoyID=@adminID AND
+		TB_Area.isActive=1 AND
+		TB_Customer.isActive=1
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Delivery_FetchAssignedCustomersInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Delivery_FetchAssignedCustomersInRepeater]
+	-- Add the parameters for the stored procedure here
+	@deliveryBoyID	int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		customerID,
+		customerName,
+		customerMobile,
+		street,
+		area		
+	FROM 
+		TB_Customer,
+		TB_Area
+	WHERE
+		TB_Customer.areaID=TB_Area.areaID AND
+		deliveryBoyID=@deliveryBoyID
+
+	select adminName as DeliveryBoyName 
+	from TB_Admin 
+	where adminID=@deliveryBoyID 
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Delivery_FetchDeliveryBoyInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Delivery_FetchDeliveryBoyInRepeater]
+	-- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		adminID,
+		adminName AS deliveryBoy,
+		(SELECT COUNT(deliveryBoyID) FROM TB_Customer WHERE deliveryBoyID=TB_Admin.adminID) AS totalCustomer
+	FROM 
+		TB_Admin
+	WHERE 
+		isActive=1 AND
+		role='saler'
+
+	
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Delivery_FetchUnAssignedCustomersInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Delivery_FetchUnAssignedCustomersInRepeater]
+	-- Add the parameters for the stored procedure here
+	@deliveryBoyID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		customerID,
+		customerName,
+		customerMobile,
+		street,
+		area		
+	FROM 
+		TB_Customer,
+		TB_Area
+	WHERE
+		TB_Customer.areaID=TB_Area.areaID AND
+		deliveryBoyID = 0
+
+	select adminName as DeliveryBoyName 
+	from TB_Admin 
+	where adminID=@deliveryBoyID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Delivery_UnassignCustomer]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Delivery_UnassignCustomer]
+	-- Add the parameters for the stored procedure here
+	@customerID	int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE TB_Customer
+	SET
+		deliveryBoyID=0
+	WHERE
+		customerID=@customerID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_Add]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_Add]
+	-- Add the parameters for the stored procedure here
+	@productName		varchar(100),
+	@productDesc		varchar(500)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	INSERT INTO TB_Product
+	(
+		productName,
+		productDesc,
+		isActive		
+	)
+	VALUES
+	(
+		@productName,
+		@productDesc,
+		1
+	)
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_AddValidation]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_AddValidation]
+	-- Add the parameters for the stored procedure here
+	@productName	varchar(100)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		productID
+	FROM
+		TB_Product
+	WHERE
+		productName=@productName
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_ChangeStatus]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_ChangeStatus] 
+	-- Add the parameters for the stored procedure here
+	@productID	int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DECLARE @ExistingStatus VARCHAR(1)
+	
+	SELECT
+		@ExistingStatus=isActive
+	FROM 
+		TB_Product
+	WHERE
+		productID=@productID
+		
+	IF @ExistingStatus='1'
+		UPDATE TB_Product
+		SET 
+			isActive='0'
+		WHERE
+			productID=@productID
+	ELSE
+		UPDATE TB_Product
+		SET 
+			isActive='1'
+		WHERE
+			productID=@productID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_delete]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_delete]
+	-- Add the parameters for the stored procedure here
+	@productID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DELETE FROM TB_Product
+	WHERE productID=@productID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_FetchActiveProductInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_FetchActiveProductInRepeater]
+	-- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM TB_Product
+	where isActive=1
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_FetchInForm]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_FetchInForm]
+	-- Add the parameters for the stored procedure here
+	@productID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM TB_Product
+	WHERE productID=@productID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_FetchProductInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_FetchProductInRepeater]
+	-- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM TB_Product
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_Update]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_Update]
+	-- Add the parameters for the stored procedure here
+	@productID			int,
+	@productName		varchar(100),
+	@productDesc		varchar(500)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE TB_Product
+	SET
+		productName=@productName,
+		productDesc=@productDesc
+	WHERE
+		productID=@productID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Product_UpdateValidation]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Product_UpdateValidation]
+	-- Add the parameters for the stored procedure here
+	@productID		int,
+	@productName 	varchar(100)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT
+		productID
+	FROM	
+		TB_Product
+	WHERE
+		productName=@productName	AND productID!=@productID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_ProductRate_Add]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_ProductRate_Add]
+	-- Add the parameters for the stored procedure here
+	@rate				decimal(5,2),
+	@dateOfDeclare		date,
+	@productID			int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	declare @oldPriceID		int	
+	
+	SELECT @oldPriceID = productRateID
+	FROM TB_ProductRate
+	WHERE isActive=1 AND productID=@productID
+
+	IF @oldPriceID != 0
+	BEGIN
+		 UPDATE TB_ProductRate
+		 SET isActive=0 
+		 WHERE productRateID=@oldPriceID
+	END
+	
+	INSERT INTO TB_ProductRate
+	(
+		productID,
+		rate,
+		dateOfDeclare,
+		isActive
+	)
+	values
+	(
+		@productID,
+		@rate,
+		@dateOfDeclare,
+		1
+	)
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_ProductRate_AddValidation]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_ProductRate_AddValidation]
+	-- Add the parameters for the stored procedure here
+	@rate		decimal(5,2),
+	@productID	int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT productRateID
+	FROM TB_ProductRate
+	WHERE rate=@rate and productID = @productID and isActive=1
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_ProductRate_ChangeStatus]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_ProductRate_ChangeStatus]
+	-- Add the parameters for the stored procedure here
+	@productRateID	int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	DECLARE @ExistingStatus VARCHAR(1)
+	
+	SELECT
+		@ExistingStatus=isActive
+	FROM 
+		TB_ProductRate
+	WHERE
+		productRateID=@productRateID
+		
+	IF @ExistingStatus='1'
+		UPDATE TB_ProductRate
+		SET 
+			isActive='0'
+		WHERE
+			productRateID=@productRateID
+	ELSE
+		UPDATE TB_ProductRate
+		SET 
+			isActive='1'
+		WHERE
+			productRateID=@productRateID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_ProductRate_FetchActiveProductRateInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_ProductRate_FetchActiveProductRateInRepeater]
+	-- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		productRateID,
+		productName,
+		dateOfDeclare,
+		rate,		
+		TB_ProductRate.isActive
+
+	FROM TB_ProductRate,TB_Product
+	WHERE 
+		TB_ProductRate.productID=TB_Product.productID and
+		TB_ProductRate.isActive = 1	
+	ORDER BY productName DESC
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_ProductRate_FetchProductRateInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_ProductRate_FetchProductRateInRepeater]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		productRateID,
+		productName,
+		dateOfDeclare,
+		rate,		
+		TB_ProductRate.isActive
+
+	FROM TB_ProductRate,TB_Product
+	WHERE 
+		TB_ProductRate.productID=TB_Product.productID 
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_ProductRate_Update]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_ProductRate_Update]
+	-- Add the parameters for the stored procedure here
+	@rate			decimal(5,2),
+	@dateOfDeclare	date,
+	@isActive		bit
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE TB_ProductRate 
+	SET 
+		rate=@rate,
+		dateOfDeclare=@dateOfDeclare,
+		isActive=@isActive
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Saler_DeliveryAdd]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Saler_DeliveryAdd]
+	-- Add the parameters for the stored procedure here
+	  @customerID			int,
+      @deliveryDate			date,
+      @batch				varchar(5),
+      @milkQuatity			decimal(5,2),
+      @productID			int,
+      @deliveryBoyID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	INSERT INTO TB_MilkDelivery
+	(
+	  customerID,
+      deliveryDate,
+      batch,
+      milkQuatity,
+      productID,
+      salerID
+	)
+	VALUES
+	(
+	  @customerID,
+      @deliveryDate,
+      @batch,
+      @milkQuatity,
+      @productID,
+      @deliveryBoyID
+	)
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Saler_FetcCustomerDetailsInForm]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Saler_FetcCustomerDetailsInForm]
+	-- Add the parameters for the stored procedure here
+	@customerID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		deliveryID,
+		productID,
+		milkQuatity
+	FROM 
+		TB_MilkDelivery
+	WHERE
+		customerID=@customerID AND
+		deliveryID = (SELECT MAX(deliveryID) FROM TB_MilkDelivery WHERE customerID=@customerID)
+		
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Saler_FetchDailyDeliveryListInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Saler_FetchDailyDeliveryListInRepeater]
+	-- Add the parameters for the stored procedure here
+	@deliveryBoyID		int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here	
+	select 
+	customerID,
+	customerName,
+	flatNo + ', ' + buildingName + ', ' + street as address,
+	area,
+	dbo.get_undeliverdCustomers(customerID) as deliveryID,
+	customerMobile
+	from 
+		TB_Customer,TB_Area
+	where
+		TB_Customer.areaID=TB_Area.areaID and
+		deliveryBoyID=@deliveryBoyID
+	
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Saler_FetchMonthlyDetailsInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Saler_FetchMonthlyDetailsInRepeater]
+	-- Add the parameters for the stored procedure here
+	@customerID			int,
+	@month				int,
+	@year				int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT 
+		day(deliveryDate) as deliveryDate,
+		milkQuatity,
+		convert(numeric(5,2),dbo.get_productRate(productID) * milkQuatity) as amount,
+		(select adminName from TB_Admin where adminID=salerID) as deliveryBoy		
+	FROM
+		TB_MilkDelivery
+	WHERE
+		customerID=@customerID AND
+		MONTH(deliveryDate)=@month and
+		YEAR(deliveryDate)=@year
+
+	SELECT
+		(select customerName from TB_Customer where customerID=@customerID)as customerName,
+		convert(numeric(5,2),SUM(dbo.get_productRate(productID) * milkQuatity)) as tAmount,
+		SUM(milkQuatity)as tQuantity,
+		convert(numeric(5,2),(select balanceAmount from TB_PaymentDetails where customerID=@customerID and paymentID=(select max(paymentID) from TB_PaymentDetails where customerID=@customerID))) as balanceAmount
+	FROM
+		TB_MilkDelivery		
+	WHERE
+		customerID=@customerID AND
+		MONTH(deliveryDate)=@month and
+		YEAR(deliveryDate)=@year
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_Saler_FetchPaymentListInRepeater]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_Saler_FetchPaymentListInRepeater]
+	-- Add the parameters for the stored procedure here
+	@deliveryBoyID		int,
+	@month				int,
+	@year				int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	select 
+	customerID,
+	customerName,
+	flatNo + ', ' + buildingName + ', ' + street as address,
+	area,
+	dbo.get_unPaidCustomers(customerID,@month,@year) as paymentID,
+	customerMobile
+	from 
+		TB_Customer,TB_Area
+	where
+		TB_Customer.areaID=TB_Area.areaID and
+		deliveryBoyID=@deliveryBoyID
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[proc_AnushreeDairy_SalerPaymentAdd]    Script Date: 10/19/2018 10:05:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[proc_AnushreeDairy_SalerPaymentAdd]
+	-- Add the parameters for the stored procedure here
+	  @customerID			integer,
+      @paymentDate			date,
+      @paymentMonth			integer,
+      @paymentYear			integer,
+      @paymentAmount		decimal(5,2),
+      @paidAmount			decimal(5,2),
+      @balanceAmount		decimal(5,2),
+      @paymentMode			varchar(10),
+      @deliveryBoyID		integer
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	INSERT INTO TB_PaymentDetails
+	(
+	  customerID,
+      paymentDate,
+      paymentMonth,
+      paymentYear,
+      paymentAmount,
+      paidAmount,
+      balanceAmount,
+      paymentMode,
+      adminID
+	)
+	VALUES
+	(
+	  @customerID,
+      @paymentDate,
+      @paymentMonth,
+      @paymentYear,
+      @paymentAmount,
+      @paidAmount,
+      @balanceAmount,
+      @paymentMode,
+      @deliveryBoyID
+	)
+END
+GO
+
+*************SCALER FUNCTION*****************
+
+USE [AnushreeDairy]
+GO
+
+/****** Object:  UserDefinedFunction [dbo].[get_productRate]    Script Date: 10/19/2018 10:08:06 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date, ,>
+-- Description:	<Description, ,>
+-- =============================================
+CREATE FUNCTION [dbo].[get_productRate]
+(
+	-- Add the parameters for the function here
+	@productID	int
+)
+RETURNS decimal(5,2)
+AS
+BEGIN
+	-- Declare the return variable here
+	DECLARE @productRate int
+
+	-- Add the T-SQL statements to compute the return value here
+	SELECT 
+		@productRate=rate
+	FROM 
+		TB_ProductRate 
+	WHERE 
+		productID=@productID
+
+	-- Return the result of the function
+	RETURN @productRate
+
+END
+GO
+
+/****** Object:  UserDefinedFunction [dbo].[get_undeliverdCustomers]    Script Date: 10/19/2018 10:08:06 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date, ,>
+-- Description:	<Description, ,>
+-- =============================================
+CREATE FUNCTION [dbo].[get_undeliverdCustomers]
+(
+	-- Add the parameters for the function here
+	@customerID	int
+)
+RETURNS int
+AS
+BEGIN
+	-- Declare the return variable here
+	DECLARE @DeliveryStatus	int
+
+	-- Add the T-SQL statements to compute the return value here
+	select 
+		@DeliveryStatus=deliveryID 
+	from 
+		TB_MilkDelivery 
+	where 
+		deliveryDate=CONVERT(date, GETDATE()) and 
+		deliveryID=(select max(deliveryID) from TB_MilkDelivery where customerID=@customerID) and 
+		TB_MilkDelivery.customerID = @customerID
+
+	-- Return the result of the function
+	RETURN @DeliveryStatus
+
+END
+GO
+
+/****** Object:  UserDefinedFunction [dbo].[get_unPaidCustomers]    Script Date: 10/19/2018 10:08:06 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date, ,>
+-- Description:	<Description, ,>
+-- =============================================
+CREATE FUNCTION [dbo].[get_unPaidCustomers]
+(
+	-- Add the parameters for the function here
+	@customerID		int,
+	@month				int,
+	@year				int
+)
+RETURNS int
+AS
+BEGIN
+	-- Declare the return variable here
+	DECLARE @paymentStatus	int
+
+	-- Add the T-SQL statements to compute the return value here
+	select 
+		@paymentStatus=paymentID
+	from 
+		TB_PaymentDetails 
+	where 
+		paymentMonth= @month and
+		paymentYear=@year	and 
+		paymentID=(select max(paymentID) from TB_PaymentDetails where customerID=@customerID) and 
+		customerID=@customerID
+
+	-- Return the result of the function
+	RETURN @paymentStatus
+
+END
+GO
+
